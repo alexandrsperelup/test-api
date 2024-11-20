@@ -1,4 +1,6 @@
 package org.example.tests;
+import io.qameta.allure.AllureId;
+import io.qameta.allure.Description;
 import org.example.BaseTest;
 import org.example.helpers.DataHelper;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,13 +10,15 @@ import java.util.List;
 
 public class DomainTests extends BaseTest {
 
-    static List<String> endpoints() throws Exception {
+    private static List<String> endpoints() throws Exception {
         return DataHelper.getEndpoints("ntpUkraine");
     }
 
-    @ParameterizedTest
+    @ParameterizedTest(name = "Test with parameter {0}")
+    @Description("Verify that response contains expected country")
     @MethodSource("endpoints")
-    void testEndpoints(String endpoint) {
+    @AllureId("TS-01")
+    public void testEndpoints(String endpoint) {
         ntpSteps.verifyResponseContainsCountry(endpoint, "Ukraine");
     }
 }
